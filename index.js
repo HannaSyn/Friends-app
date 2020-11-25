@@ -3,9 +3,6 @@ const sortAge = document.querySelector('.sort-age');
 const sortName = document.querySelector('.sort-name');
 const container = document.querySelector('.container');
 const filterGender = document.querySelector('.gender-filter');
-const female = document.getElementById('female');
-const male = document.getElementById('male');
-const allGenders = document.getElementById('all');
 const ageAscending = document.getElementById('age-ascending');
 const ageDescending = document.getElementById('age-descending');
 const nameAscending = document.getElementById('name-ascending');
@@ -46,64 +43,57 @@ function renderCards(arr) {
 }
 
 function filterBySearch(arr, str) {
-  let filteredArr = [];
-
-  arr.forEach(el => {
-    let fullName = `${el.name.first}${el.name.last}`;
-    let isIncludesFullname = fullName.includes(str.toLowerCase());
-    if (isIncludesFullname) {
-      filteredArr.push(el)
-    } 
-  })
-
-  return filteredArr
+  return arr.filter( el => `${el.name.first}${el.name.last}`.includes(str.toLowerCase()))
 }
 
 function filterByGender(value, arr) {
-  let filteredArr = [];
-
   if (value == 'all') {
     return arr
-  } else {
-    arr.filter(el => el.gender == value ? filteredArr.push(el) : filteredArr)
+  } 
+  return arr.filter(el => el.gender == value)
+}
+
+function findChecked(element) {
+  let checked;
+  let inputs = element.querySelectorAll('input');
+  for (let input of inputs) {
+    if (input.checked) {
+      checked = input;   
+    }
   }
-  return filteredArr
+  return checked;
 }
 
 function sortByNameAsc(arr) {
-	arr.sort(function(a, b){
+	return arr.sort(function(a, b){
     if(a.name.first.toLowerCase() < b.name.first.toLowerCase()) { return -1; }
     if(a.name.first.toLowerCase() > b.name.first.toLowerCase()) { return 1; }
     return 0;
   })
-	return arr;
 }
 
 function sortByNameDesc(arr) {
-	arr.sort(function(a, b){
+	return arr.sort(function(a, b){
     if(a.name.first.toLowerCase() > b.name.first.toLowerCase()) { return -1; }
     if(a.name.first.toLowerCase() < b.name.first.toLowerCase()) { return 1; }
     return 0;
 	})
-	return arr;
 }
 
 function sortByAgeAsc(arr) {
-	arr.sort(function(a, b){
+	return arr.sort(function(a, b){
     if(a.dob.age < b.dob.age) { return -1; }
     if(a.dob.age > b.dob.age) { return 1; }
     return 0;
 	})
-	return arr;
 }
 
 function sortByAgeDesc(arr) {
-	arr.sort(function(a, b){
+	return arr.sort(function(a, b){
     if(a.dob.age > b.dob.age) { return -1; }
     if(a.dob.age < b.dob.age) { return 1; }
     return 0;
 	})
-	return arr;
 }
 
 function showFilteredUsers() {
@@ -111,14 +101,9 @@ function showFilteredUsers() {
   if (searchInput.value !== '') {
     filteredArr = filterBySearch(filteredArr, searchInput.value)
   }
-  if (female.checked) {
-    filteredArr = filterByGender(female.value, filteredArr)
-  }
-  if (male.checked) {
-    filteredArr = filterByGender(male.value, filteredArr)
-  }
-  if (allGenders.checked) {
-    filteredArr = filterByGender(allGenders.value, filteredArr)
+  let gender = findChecked(filterGender);
+  if (gender) {
+    filteredArr = filterByGender(gender.value, filteredArr)
   }
   if (ageAscending.checked) {
     sortByAgeAsc(filteredArr)
