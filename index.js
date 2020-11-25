@@ -1,7 +1,7 @@
 const searchInput = document.querySelector('.search-input');
 const sortAge = document.querySelector('.sort-age');
 const sortName = document.querySelector('.sort-name');
-const container = document.querySelector('.container');
+const mainContent = document.querySelector('.main-content');
 const filterGender = document.querySelector('.gender-filter');
 const ageAscending = document.getElementById('age-ascending');
 const ageDescending = document.getElementById('age-descending');
@@ -17,7 +17,7 @@ const loadUsers = async () => {
     users = results;
   }
   catch(error) {
-    container.innerHTML = `<p>Oops! Here is the error ${error}</p>`
+    mainContent.innerHTML = `<p>Oops! Here is the error ${error}</p>`
   }
 }
 
@@ -39,7 +39,7 @@ function renderCards(arr) {
     </div>`
     card += template
   })
-  container.innerHTML = card
+  mainContent.innerHTML = card
 }
 
 function filterBySearch(arr, str) {
@@ -66,33 +66,25 @@ function findChecked(element) {
 
 function sortByNameAsc(arr) {
 	return arr.sort(function(a, b){
-    if(a.name.first.toLowerCase() < b.name.first.toLowerCase()) { return -1; }
-    if(a.name.first.toLowerCase() > b.name.first.toLowerCase()) { return 1; }
-    return 0;
+    return a.name.first.toLowerCase() < b.name.first.toLowerCase() ? -1 : 1;
   })
 }
 
 function sortByNameDesc(arr) {
 	return arr.sort(function(a, b){
-    if(a.name.first.toLowerCase() > b.name.first.toLowerCase()) { return -1; }
-    if(a.name.first.toLowerCase() < b.name.first.toLowerCase()) { return 1; }
-    return 0;
+    return a.name.first.toLowerCase() > b.name.first.toLowerCase() ? -1 : 1;
 	})
 }
 
 function sortByAgeAsc(arr) {
 	return arr.sort(function(a, b){
-    if(a.dob.age < b.dob.age) { return -1; }
-    if(a.dob.age > b.dob.age) { return 1; }
-    return 0;
+    return a.dob.age < b.dob.age ? -1 : 1;
 	})
 }
 
 function sortByAgeDesc(arr) {
 	return arr.sort(function(a, b){
-    if(a.dob.age > b.dob.age) { return -1; }
-    if(a.dob.age < b.dob.age) { return 1; }
-    return 0;
+    return a.dob.age > b.dob.age ? -1 : 1;
 	})
 }
 
